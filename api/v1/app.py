@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """v1 of the API"""
 from flask import Flask
 from models import storage
