@@ -119,11 +119,11 @@ class TestFileStorage(unittest.TestCase):
     def test_get(self):
         """Tests the returns of the get() method"""
         storage = FileStorage()
-        self.assertIs(storage.get("User", "name"), None)
+        self.assertIs(storage.get(User, "name"), None)
         self.assertIs(storage.get("John", "Snow"), None)
         new_state = State()
         new_state.save()
-        self.assertis(storage.get(new_state, new_state.id), new_state)
+        self.assertIs(storage.get(new_state, new_state.id), new_state)
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == "db",
                      "Not testing this File Storage")
@@ -132,10 +132,10 @@ class TestFileStorage(unittest.TestCase):
         for the count() methods"""
         storage = FileStorage()
         starting_len = len(storage.all())
-        self.assertis(storage.count(), starting_len)
-        state_len = storage.all(State)
-        self.assertis(storage.count(State), state_len)
+        self.assertIs(storage.count(), starting_len)
+        state_len = storage.count(State)
+        self.assertIs(storage.count(State), state_len)
         new_state = State()
         new_state.save()
-        self.assertis(storage.count(State), state_len + 1)
-        self.assertis(storage.count(), starting_len + 1)
+        self.assertIs(storage.count(State), state_len + 1)
+        self.assertIs(storage.count(), starting_len + 1)
