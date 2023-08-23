@@ -50,7 +50,7 @@ def post_state():
                  methods=["PUT"])
 def update_state(state_id):
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}, 400))
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     new_state = storage.get(State, state_id)
     if new_state is None:
         abort(404)
@@ -58,4 +58,4 @@ def update_state(state_id):
         if key not in ["id", "created_at", "updated_at"]:
             setattr(new_state, key, value)
     storage.save()
-    return make_response(jsonify(new_state.to_dict(), 200))
+    return make_response(jsonify(new_state.to_dict()), 200)
