@@ -14,7 +14,6 @@ def get_city_by_state(state_id):
     if state_primary is None:
         abort(404)
     listed_cities = []
-    for city in storage.all(City).values():
-        if city.get('id') == state_primary.id:
-            listed_cities.append(city.to_dict())
+    for city in state_primary.cities:
+        listed_cities.append(city.to_dict())
     return jsonify(listed_cities)
