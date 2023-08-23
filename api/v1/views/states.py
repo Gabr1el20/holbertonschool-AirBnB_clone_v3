@@ -38,9 +38,9 @@ def delete_state(state_id):
                  strict_slashes=False)
 def post_state():
     if request.get_json() is None:
-        return jsonify({"error": "Not a JSON"}, 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if "name" not in request.get_json():
-        return jsonify({"error": "Missing name"}, 400)
+        return make_response(jsonify({"error": "Missing name"}), 400)
     new_state = State(**request.get_json())
     storage.save()
     return make_response(jsonify(new_state.to_dict()), 201)
