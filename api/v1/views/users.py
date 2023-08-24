@@ -9,7 +9,7 @@ from flask import make_response, jsonify, abort, request
 @app_views.route("/users", strict_slashes=False)
 def all_users():
     listed_users = []
-    for value in storage.all(User).values():
+    for value in storage.all("User").values():
         listed_users.append(value.to_dict())
     return jsonify(listed_users)
 
