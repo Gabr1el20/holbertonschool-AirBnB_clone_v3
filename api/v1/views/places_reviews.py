@@ -36,4 +36,4 @@ def delete_review(review_id):
         abort(404)
     review_to_delete.delete()
     storage.save()
-    return make_response(jsonify({}), 200)    
+    return make_response(jsonify({}), 200)
