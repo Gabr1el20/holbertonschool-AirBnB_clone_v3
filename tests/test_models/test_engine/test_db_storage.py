@@ -90,7 +90,7 @@ class TestFileStorage(unittest.TestCase):
 
 class TestDbStorage(unittest.TestCase):
     """Tests cases for get() and count() methods"""
-    
+
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Not testing db storage")
     def test_get(self):
@@ -101,7 +101,7 @@ class TestDbStorage(unittest.TestCase):
         new_city = City()
         new_city.save()
         self.assertIs(storage.get("City", new_city.id), new_city)
-    
+
     def test_count(self):
         "Tests for count() method"
         storage = DBStorage()
