@@ -12,7 +12,7 @@ from models.city import City
 def get_city_by_state(state_id):
     state_primary = storage.get(State, state_id)
     if state_primary is None:
-        abort(400)
+        abort(404)
     listed_cities = []
     for city in state_primary.cities:
         listed_cities.append(city.to_dict())
