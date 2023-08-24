@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """View routes for city related tasks"""
 from api.v1.views import app_views
-from flask import jsonify, make_response, abort
+from flask import jsonify, make_response, abort, request
 from models import storage
 from models.state import State
 from models.city import City
@@ -36,3 +36,30 @@ def delete_city(city_id):
         abort(404)
     city_to_delete.delete()
     return make_response(jsonify({}), 200)
+
+
+@app_views.route("/states/<string:state_id>/cities", methods=["POST"],
+                 strict_slashes=False)
+def create_city(state_id):
+    if not request.get_json():
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if "name" not in request.get_json():
+        return make_response(jsonify({"error": "Missing name"}), 400)
+    new_city = City(**request.get_json())
+    storage.save()
+    return make_response(jsonify(new_city.to_dict()), 201)
+
+
+@app_views.route("/cities/<string:city_id>", methods=["PUT"],
+                 strict_slashes=False)
+def update_city(city_id):
+    if not request.get_json():
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    city_to_update = storage.get(City, city_id)
+    if city_to_update is None:
+        abort(404)
+    for key, value in request.get_json().items():
+        if key not in ["id", "created_at", "updated_at"]:
+            setattr(city_to_update, key, value)
+    return make_response(jsonify(city_to_update.to_dict()), 200)
+    
