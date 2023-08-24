@@ -102,6 +102,8 @@ class TestDbStorage(unittest.TestCase):
         new_city.save()
         self.assertIs(storage.get("City", new_city.id), new_city)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") != 'db',
+                     "Not testing db storage")
     def test_count(self):
         "Tests for count() method"
         storage = DBStorage()
