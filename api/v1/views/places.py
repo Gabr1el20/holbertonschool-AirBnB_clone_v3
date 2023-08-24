@@ -70,8 +70,9 @@ def update_place(place_id):
         abort(404)
     if not request.get_json():
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    for key, value in request.get_json():
-        if key not in ["id", "user_id", "created_at", "updated_at"]:
+    for key, value in request.get_json().items():
+        if key not in ["id", "user_id", "city_id",
+                       "created_at", "updated_at"]:
             setattr(place_to_update, key, value)
     storage.save()
     return make_response(jsonify(place_to_update.to_dict()), 200)
