@@ -26,3 +26,13 @@ def get_a_city(city_id):
         abort(404)
     storage.save()
     return jsonify(new_city.to_dict())
+
+
+@app_views.route("/cities/<string:city_id>", methods=["DELETE"],
+                 strict_slashes=False)
+def delete_city(city_id):
+    city_to_delete = storage.get(City, city_id)
+    if city_to_delete is None:
+        abort(404)
+    city_to_delete.delete()
+    return make_response(jsonify({}), 200)
