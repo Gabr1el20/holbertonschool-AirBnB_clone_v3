@@ -120,10 +120,10 @@ class TestFileStorage(unittest.TestCase):
         """Tests the returns of the get() method"""
         storage = FileStorage()
         self.assertIs(storage.get(User, "name"), None)
-        self.assertIs(storage.get("John", "Snow"), None)
+        self.assertIs(storage.get(None, "Snow"), None)
         new_state = State()
         new_state.save()
-        self.assertIs(storage.get(new_state, new_state.id), new_state)
+        self.assertIs(storage.get(State, new_state.id), new_state)
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == "db",
                      "Not testing this File Storage")

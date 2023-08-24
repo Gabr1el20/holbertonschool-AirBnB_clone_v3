@@ -97,7 +97,7 @@ class TestDbStorage(unittest.TestCase):
         "Tests for get() method"
         storage = DBStorage()
         self.assertIs(storage.get(User, "Blah"), None)
-        self.assertIs(storage.get("Blah", "Blah", None))
+        self.assertIs(storage.get("Blah", "Blah"), None)
         new_city = City()
         new_city.save()
         self.assertIs(storage.get("City", new_city.id), new_city)
