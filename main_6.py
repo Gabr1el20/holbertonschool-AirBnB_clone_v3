@@ -34,28 +34,26 @@ if __name__ == "__main__":
             break
     
     if city_id is None:
-        print("City without cities not found")
+        print("City without places not found")
     
-    """ Fetch places
+    """ get place without reviews
     """
     r = requests.get("http://0.0.0.0:5000/api/v1/cities/{}/places".format(city_id))
     r_j = r.json()
-    place_id = r_j[0].get('id')
-
-    """ PUT /api/v1/places/<place_id>
-    """
-    r = requests.put("http://0.0.0.0:5000/api/v1/places/{}".format(place_id), data=json.dumps({ 'name': "NewName", 'price_by_night': 200 }), headers={ 'Content-Type': "application/json" })
-    print(r.status_code)
-    r_j = r.json()
-    print(r_j.get('id') is None)
-    print(r_j.get('name') == "NewName")
-    print(int(r_j.get('price_by_night')) == 200)
-
-    """ Fetch cities
-    """
-    r = requests.get("http://0.0.0.0:5000/api/v1/cities/{}/places".format(city_id))
-    r_j = r.json()
+    place_id = None
     for place_j in r_j:
-        if place_j.get('id') == place_id:
-            print(place_j.get('name') == "NewName")
-            print(int(place_j.get('price_by_night')) == 200)
+        rp = requests.get("http://0.0.0.0:5000/api/v1/places/{}/reviews".format(place_j.get('id')))
+        rp_j = rp.json()
+        if len(rp_j) == 0:
+            place_id = place_j.get('id')
+            break
+    
+    if place_id is None:
+        print("Place without reviews not found")
+    
+    """ Fetch reviews
+    """
+    r = requests.get("http://0.0.0.0:5000/api/v1/places/{}/reviews".format(place_id))
+    r_j = r.json()
+    print(type(r_j))
+    print(len(r_j))
