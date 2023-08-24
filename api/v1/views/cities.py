@@ -12,8 +12,17 @@ from models.city import City
 def get_city_by_state(state_id):
     state_primary = storage.get(State, state_id)
     if state_primary is None:
-        abort(404)
+        abort(400)
     listed_cities = []
     for city in state_primary.cities:
         listed_cities.append(city.to_dict())
-    return jsonify(listed_cities)
+    return make_response(jsonify(listed_cities), 200)
+
+
+@app_views.route("/cities/<string:city_id>", strict_slashes=False)
+def get_a_city(city_id):
+    new_city = storage.get(City, city_id)
+    if new_city is None:
+        abort(404)
+    storage.save()
+    return jsonify(new_city.to_dict())
